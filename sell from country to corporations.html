@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Multiple Buttons with Different URLs</title>
+    <style>
+        /* Add some CSS to style the button rows */
+        .button-row {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <label for="numberDropdown">Select a World (1-6):</label>
+        <select id="numberDropdown">
+            <option value="6">6</option>
+            <option value="5">5</option>
+            <option value="4">4</option>
+            <option value="3">3</option>
+            <option value="2">2</option>
+            <option value="1">1</option>
+        </select>
+    </div>
+
+    <div id="button-container"></div>
+
+    <script>
+        // An array of button texts
+        const buttonTexts = [
+            "Air Transport","Aircraft Carriers","Aircraft Fuel","Airforce Maintenance","Airplanes","Aluminum","Ammunition Components","Ammunition Quality Upgrades","Anti Aircraft Missile Batteries","Anti Aircraft Missiles","Anti Tank Missile Batteries","Anti Tank Missiles","Armored Vehicle Missiles","Armored Vehicles","Assets Maintenance","Attack Boats","Attack Destroyer Torpedoes","Attack Destroyers","Attack Drone Missiles","Attack Drones","Attack Helicopter Missiles","Attack Helicopters","Batteries","Beans","Books And Newspapers","Bread","Bricks","Building Materials","Butter","Cable TV Services","Car Engines","Carbon","Cargo Airplanes","Cargo Shuttles","Cattle","Cattle Feed","Cement","Chemical Missile Batteries","Chemical Missiles","Chemicals","Chocolate","Clothes","Coal","Cocoa","Coffee","Computers","Construction","Conventional Missile Batteries","Conventional Missiles","Copper","Corn","Cotton","Cruise Missiles Ship Based","Cruise Missiles Ships","Def Weapons Maintenance","Defense Fortifications","Defense Targon Batteries","Defensive Military Airports","Defensive Military Bases","Defensive Missile Batteries","Defensive Missiles","Defensive Targon Missiles","Destroyer Torpedoes","Destroyers","Displays","Eggs","Electric Components","Electric Motors","Electric Power","Electronic Components","Elementary schools","Factory Maintenance","Fighter Missiles","Fighter Planes","Fruit","Furniture","Gas","Gasoline","Glass","Gold","Guided Missiles","Guided Missiles Frigates","Heavy Armored Vehicles","Heavy Artillery","Heavy Artillery Shells","Heavy Jeeps","Heavy Tank Ammunition","Heavy Tanks","Helicopter Carriers","Helicopter Missiles","Helicopters","High Tech Services","Highschools","Hospitals","Household Products","Industrial Equipment","Interceptor Missiles","Interceptors","Internet","Iron","Jeeps","Land Based Cruise","Land Based Cruise Batteries","Land To Sea Missile Batteries","Land To Sea Missiles","Laser Guided Bombs","Lead","Light Artillery","Light Artillery Shells","Light Tank Ammunition","Light Tanks","Lithium","Long Range Radar Planes","Luxury Goods","Machine Parts","Meat","Medical Equipment","Medical Materials","Mercury","Metadium","Mid Range Missile Batteries","Mid Range Missiles","Military Bases Maintenance","Military Services","Military Supplies","Military Transport Airplanes","Milk","Minerals","Missile Interceptor Batteries","Missile Interceptors","Mobile Devices","Navy Base","Navy Fighter Missiles","Navy Fighter Planes","Navy Helicopter Missiles","Navy Helicopters","Navy Interceptor Missiles","Navy Interceptors","Navy Missile Batteries","Navy Missile Interceptor Batteries","Navy Missile Interceptors","Navy Missiles","Navy Vessels Maintenance","Nuclear Defense Batteries","Nuclear Defense Missiles","Nuclear Missile Batteries","Nuclear Missiles","Nuclear Submarine Missiles","Nuclear Submarines","Off Anti Aircraft Missile Batteries","Off Anti Aircraft Missiles","Off Weapons Maintenance","Offensive Military Airports","Offensive Military Bases","Oil","Other Food Products","Paper","Peanuts","Pharmaceutical Products","Plastics","Platinum","Plutonium","Potassium","Potatoes","Precision Bombers","Precision Bombs","Production Plants","Radar Planes","Rapid Deployment Ammo","Rapid Deployment Units","Rice","Roads","Robotics","Rubber","Sand","Seals Ammo","Seals Units","Selenium","Services","Shuttle Boosters","Shuttle Components","Shuttle Engines","Shuttle Extentions","Shuttle Fuselage","Shuttle Maintenance Units","Silver","Software","Solid Missile Fuel","Soybeans","Space Centers","Special Forces Missiles","Special Forces Units","Spices","Stealth Bombers","Steel","Stone","Str Weapons Maintenance","Strategic Airports","Strategic Bombers","Strategic Bombs","Strategic Military Bases","Submarine Torpedoes","Submarines","Sugar","Sulfur","Supply Ships","Tactical Nuclear Weapons","Tactical Weapons Launchers","Targon","Telephone","Train Tracks","Trucks","Universities","Uranium","Vegetables","Water treatment facilities","Weapon Grade Components","Weapon Grade Uranium","Weapon Quality Upgrades","Wheat","Wind Farms","Wind Turbines","Wood","Wool","Zinc","Advanced Effectivity Products","Advanced Quality Products"
+        ];
+
+        const indexes = [
+            [3, 25, 69, 72, 78, 92, 114, 131, 95, 173, 179],[8, 28, 46, 47, 67, 69, 70, 72, 92, 173, 179, 195, 217, 219]
+        ];
+
+
+
+        // An array of URLs to open when buttons are clicked
+        const buttonURLs = [
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=159", // 1) Air Transport
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=197", // 2) Aircraft Carriers
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=253", // 3) Aircraft Fuel
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=302", // 4) Airforce Maintenance
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=158", // 5) Airplanes
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=108", // 6) Aluminum
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=267", // 7) Ammunition Components
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=268", // 8) Ammunition Quality Upgrades
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=20", // 9) Anti Aircraft Missile Batteries
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=47", // 10) Anti Aircraft Missiles
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=55", // 11) Anti Tank Missile Batteries
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=83", // 12) Anti Tank Missiles
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=49", // 13) Armored Vehicle Missiles
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=32", // 14) Armored Vehicles
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=322", // 15) Assets Maintenance
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=232", // 16) Attack Boats
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=227", // 17) Attack Destroyer Torpedoes
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=225", // 18) Attack Destroyers
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=230", // 19) Attack Drone Missiles
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=228", // 20) Attack Drones
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=86", // 21) Attack Helicopter Missiles
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=64", // 22) Attack Helicopters
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=315", // 23) Batteries
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=124", // 24) Beans
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=161", // 25) Books And Newspapers
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=142", // 26) Bread
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=162", // 27) Bricks
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=163", // 28) Building Materials
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=143", // 29) Butter
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=187", // 30) Cable TV Services
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=265", // 31) Car Engines
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=316", // 32) Carbon
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=252", // 33) Cargo Airplanes
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=273", // 34) Cargo Shuttles
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=144", // 35) Cattle
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=145", // 36) Cattle Feed
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=165", // 37) Cement
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=249", // 38) Chemical Missile Batteries
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=251", // 39) Chemical Missiles
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=166", // 40) Chemicals
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=148", // 41) Chocolate
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=167", // 42) Clothes
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=109", // 43) Coal
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=125", // 44) Cocoa
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=126", // 45) Coffee
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=168", // 46) Computers
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=188", // 47) Construction
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=89", // 48) Conventional Missile Batteries
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=104", // 49) Conventional Missiles
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=110", // 50) Copper
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=127", // 51) Corn
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=128", // 52) Cotton
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=212", // 53) Cruise Missiles Ship Based
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=208", // 54) Cruise Missiles Ships
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=309", // 55) Def Weapons Maintenance
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=21", // 56) Defense Fortifications
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=329", // 57) Defense Targon Batteries
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=22", // 58) Defensive Military Airports
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=23", // 59) Defensive Military Bases
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=25", // 60) Defensive Missile Batteries
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=53", // 61) Defensive Missiles
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=331", // 62) Defensive Targon Missiles
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=222", // 63) Destroyer Torpedoes
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=218", // 64) Destroyers
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=317", // 65) Displays
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=149", // 66) Eggs
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=169", // 67) Electric Components
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=318", // 68) Electric Motors
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=184", // 69) Electric Power
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=170", // 70) Electronic Components
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=4", // 71) Elementary schools
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=261", // 72) Factory Maintenance
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=81", // 73) Fighter Missiles
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=66", // 74) Fighter Planes
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=130", // 75) Fruit
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=171", // 76) Furniture
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=111", // 77) Gas
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=172", // 78) Gasoline
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=173", // 79) Glass
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=112", // 80) Gold
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=205", // 81) Guided Missiles
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=198", // 82) Guided Missiles Frigates
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=67", // 83) Heavy Armored Vehicles
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=68", // 84) Heavy Artillery
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=84", // 85) Heavy Artillery Shells
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=69", // 86) Heavy Jeeps
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=85", // 87) Heavy Tank Ammunition
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=70", // 88) Heavy Tanks
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=196", // 89) Helicopter Carriers
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=50", // 90) Helicopter Missiles
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=33", // 91) Helicopters
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=189", // 92) High Tech Services
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=5", // 93) Highschools
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=1", // 94) Hospitals
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=186", // 95) Household Products
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=175", // 96) Industrial Equipment
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=46", // 97) Interceptor Missiles
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=34", // 98) Interceptors
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=190", // 99) Internet
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=113", // 100) Iron
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=35", // 101) Jeeps
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=106", // 102) Land Based Cruise
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=91", // 103) Land Based Cruise Batteries
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=231", // 104) Land To Sea Missile Batteries
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=245", // 105) Land To Sea Missiles
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=292", // 106) Laser Guided Bombs
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=313", // 107) Lead
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=36", // 108) Light Artillery
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=51", // 109) Light Artillery Shells
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=52", // 110) Light Tank Ammunition
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=37", // 111) Light Tanks
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=314", // 112) Lithium
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=71", // 113) Long Range Radar Planes
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=185", // 114) Luxury Goods
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=176", // 115) Machine Parts
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=151", // 116) Meat
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=177", // 117) Medical Equipment
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=263", // 118) Medical Materials
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=319", // 119) Mercury
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=332", // 120) Metadium
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=56", // 121) Mid Range Missile Batteries
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=87", // 122) Mid Range Missiles
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=300", // 123) Military Bases Maintenance
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=254", // 124) Military Services
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=258", // 125) Military Supplies
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=237", // 126) Military Transport Airplanes
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=131", // 127) Milk
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=115", // 128) Minerals
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=24", // 129) Missile Interceptor Batteries
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=48", // 130) Missile Interceptors
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=312", // 131) Mobile Devices
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=223", // 132) Navy Base
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=207", // 133) Navy Fighter Missiles
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=202", // 134) Navy Fighter Planes
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=206", // 135) Navy Helicopter Missiles
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=201", // 136) Navy Helicopters
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=305", // 137) Navy Interceptor Missiles
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=303", // 138) Navy Interceptors
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=214", // 139) Navy Missile Batteries
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=215", // 140) Navy Missile Interceptor Batteries
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=221", // 141) Navy Missile Interceptors
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=220", // 142) Navy Missiles
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=301", // 143) Navy Vessels Maintenance
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=255", // 144) Nuclear Defense Batteries
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=257", // 145) Nuclear Defense Missiles
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=90", // 146) Nuclear Missile Batteries
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=105", // 147) Nuclear Missiles
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=213", // 148) Nuclear Submarine Missiles
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=209", // 149) Nuclear Submarines
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=54", // 150) Off Anti Aircraft Missile Batteries
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=82", // 151) Off Anti Aircraft Missiles
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=310", // 152) Off Weapons Maintenance
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=57", // 153) Offensive Military Airports
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=58", // 154) Offensive Military Bases
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=116", // 155) Oil
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=154", // 156) Other Food Products
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=178", // 157) Paper
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=132", // 158) Peanuts
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=262", // 159) Pharmaceutical Products
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=179", // 160) Plastics
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=320", // 161) Platinum
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=180", // 162) Plutonium
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=122", // 163) Potassium
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=133", // 164) Potatoes
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=65", // 165) Precision Bombers
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=88", // 166) Precision Bombs
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=9", // 167) Production Plants
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=38", // 168) Radar Planes
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=246", // 169) Rapid Deployment Ammo
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=238", // 170) Rapid Deployment Units
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=134", // 171) Rice
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=2", // 172) Roads
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=323", // 173) Robotics
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=117", // 174) Rubber
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=118", // 175) Sand
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=248", // 176) Seals Ammo
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=240", // 177) Seals Units
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=280", // 178) Selenium
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=191", // 179) Services
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=275", // 180) Shuttle Boosters
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=279", // 181) Shuttle Components
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=276", // 182) Shuttle Engines
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=274", // 183) Shuttle Extentions
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=277", // 184) Shuttle Fuselage
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=278", // 185) Shuttle Maintenance Units
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=119", // 186) Silver
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=181", // 187) Software
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=264", // 188) Solid Missile Fuel
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=135", // 189) Soybeans
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=272", // 190) Space Centers
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=247", // 191) Special Forces Missiles
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=239", // 192) Special Forces Units
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=136", // 193) Spices
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=290", // 194) Stealth Bombers
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=182", // 195) Steel
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=120", // 196) Stone
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=321", // 197) Str Weapons Maintenance
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=92", // 198) Strategic Airports
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=101", // 199) Strategic Bombers
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=103", // 200) Strategic Bombs
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=93", // 201) Strategic Military Bases
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=308", // 202) Submarine Torpedoes
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=306", // 203) Submarines
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=137", // 204) Sugar
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=121", // 205) Sulfur
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=233", // 206) Supply Ships
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=107", // 207) Tactical Nuclear Weapons
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=94", // 208) Tactical Weapons Launchers
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=328", // 209) Targon
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=192", // 210) Telephone
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=6", // 211) Train Tracks
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=259", // 212) Trucks
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=7", // 213) Universities
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=123", // 214) Uranium
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=139", // 215) Vegetables
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=8", // 216) Water treatment facilities
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=266", // 217) Weapon Grade Components
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=260", // 218) Weapon Grade Uranium
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=269", // 219) Weapon Quality Upgrades
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=140", // 220) Wheat
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=327", // 221) Wind Farms
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=325", // 222) Wind Turbines
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=114", // 223) Wood
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=141", // 224) Wool
+            ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=311", // 225) Zinc
+            "effectivity",
+            "quality"
+        ];
+
+        // Get the container div where buttons will be added
+        const buttonContainer = document.getElementById("button-container");
+
+        // Get the dropdown element
+        const numberDropdown = document.getElementById("numberDropdown");
+
+        // Function to append the selected number to the front of the URL
+        function appendNumberToURL(number, url) {
+            return `https://sim0${number}${url}`;
+        }
+
+        function openTabs(index) {
+            for (let i = 0; i < indexes[index].length; i++) {
+                num = indexes[index][i] - 1;
+                const modifiedURL = appendNumberToURL(numberDropdown.value, buttonURLs[num]);
+                window.open(modifiedURL, "_blank");
+            }
+        }
+
+        // Loop through the buttonTexts array and create buttons with corresponding URLs
+        for (let i = 0; i < buttonTexts.length; i++) {
+            // Create a div for each button row
+            const buttonRow = document.createElement("div");
+            buttonRow.className = "button-row";
+
+            const button = document.createElement("button");
+            button.textContent = buttonTexts[i];
+            // button.setAttribute(i.toString, i.toString);
+            
+
+            // Add a click event listener to open the modified URL
+            button.addEventListener("click", function() {
+                const selectedNumber = numberDropdown.value;
+                openTabs(i);
+                // const modifiedURL = appendNumberToURL(selectedNumber, buttonURLs[i]);
+                // window.open(modifiedURL, "_blank");
+            });
+
+            // Append the button to the button row
+            buttonRow.appendChild(button);
+
+            // Append the button row to the button container
+            buttonContainer.appendChild(buttonRow);
+        }
+    </script>
+</body>
+</html>
