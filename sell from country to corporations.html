@@ -538,6 +538,16 @@
             // Append the button row to the button container
             buttonContainer.appendChild(buttonRow);
         }
+
+        // Disable unusable buttons
+        for(let i = 0; i < buttonTexts.length; i++)
+        {
+            const buttons = buttonContainer.getElementsByTagName("button");
+
+            if(indexes[i].length == 0)
+                buttons[i].disabled = true;
+                //buttons[i].hidden = true;
+        }
     </script>
 </body>
 </html>
