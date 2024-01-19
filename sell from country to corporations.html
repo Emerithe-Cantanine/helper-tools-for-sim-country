@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Multiple Buttons with Different URLs</title>
+    <title>Sell to Corporations</title>
     <style>
         /* Add some CSS to style the button rows */
         .button-row {
@@ -22,12 +22,242 @@
         </select>
     </div>
 
-    <div id="button-container"></div>
+    <div id="checkbox-container"></div>
+    
+    <!-- Button to submit and check selected checkboxes -->
+    <button onclick="checkSelectedCheckboxes()">Submit</button>
 
     <script>
         // An array of button texts
-        const buttonTexts = [
-            "Air Transport","Aircraft Carriers","Aircraft Fuel","Airforce Maintenance","Airplanes","Aluminum","Ammunition Components","Ammunition Quality Upgrades","Anti Aircraft Missile Batteries","Anti Aircraft Missiles","Anti Tank Missile Batteries","Anti Tank Missiles","Armored Vehicle Missiles","Armored Vehicles","Assets Maintenance","Attack Boats","Attack Destroyer Torpedoes","Attack Destroyers","Attack Drone Missiles","Attack Drones","Attack Helicopter Missiles","Attack Helicopters","Batteries","Beans","Books And Newspapers","Bread","Bricks","Building Materials","Butter","Cable TV Services","Car Engines","Carbon","Cargo Airplanes","Cargo Shuttles","Cattle","Cattle Feed","Cement","Chemical Missile Batteries","Chemical Missiles","Chemicals","Chocolate","Clothes","Coal","Cocoa","Coffee","Computers","Construction","Conventional Missile Batteries","Conventional Missiles","Copper","Corn","Cotton","Cruise Missiles Ship Based","Cruise Missiles Ships","Def Weapons Maintenance","Defense Fortifications","Defense Targon Batteries","Defensive Military Airports","Defensive Military Bases","Defensive Missile Batteries","Defensive Missiles","Defensive Targon Missiles","Destroyer Torpedoes","Destroyers","Displays","Eggs","Electric Components","Electric Motors","Electric Power","Electronic Components","Elementary schools","Factory Maintenance","Fighter Missiles","Fighter Planes","Fruit","Furniture","Gas","Gasoline","Glass","Gold","Guided Missiles","Guided Missiles Frigates","Heavy Armored Vehicles","Heavy Artillery","Heavy Artillery Shells","Heavy Jeeps","Heavy Tank Ammunition","Heavy Tanks","Helicopter Carriers","Helicopter Missiles","Helicopters","High Tech Services","Highschools","Hospitals","Household Products","Industrial Equipment","Interceptor Missiles","Interceptors","Internet","Iron","Jewelry","Land Based Cruise","Land Based Cruise Batteries","Land To Sea Missile Batteries","Land To Sea Missiles","Laser Guided Bombs","Lead","Light Artillery","Light Artillery Shells","Light Tank Ammunition","Light Tanks","Lithium","Long Range Radar Planes","Luxury Goods","Machine Parts","Meat","Medical Equipment","Medical Materials","Mercury","Metadium","Mid Range Missile Batteries","Mid Range Missiles","Military Bases Maintenance","Military Services","Military Supplies","Military Transport Airplanes","Milk","Minerals","Missile Interceptor Batteries","Missile Interceptors","Mobile Devices","Navy Base","Navy Fighter Missiles","Navy Fighter Planes","Navy Helicopter Missiles","Navy Helicopters","Navy Interceptor Missiles","Navy Interceptors","Navy Missile Batteries","Navy Missile Interceptor Batteries","Navy Missile Interceptors","Navy Missiles","Navy Vessels Maintenance","Nuclear Defense Batteries","Nuclear Defense Missiles","Nuclear Missile Batteries","Nuclear Missiles","Nuclear Submarine Missiles","Nuclear Submarines","Off Anti Aircraft Missile Batteries","Off Anti Aircraft Missiles","Off Weapons Maintenance","Offensive Military Airports","Offensive Military Bases","Oil","Other Food Products","Paper","Peanuts","Pharmaceutical Products","Plastics","Platinum","Plutonium","Potassium","Potatoes","Precision Bombers","Precision Bombs","Production Plants","Radar Planes","Rapid Deployment Ammo","Rapid Deployment Units","Rice","Roads","Robotics","Rubber","Sand","Seals Ammo","Seals Units","Selenium","Services","Shuttle Boosters","Shuttle Components","Shuttle Engines","Shuttle Extentions","Shuttle Fuselage","Shuttle Maintenance Units","Silver","Software","Solid Missile Fuel","Soybeans","Space Centers","Special Forces Missiles","Special Forces Units","Spices","Stealth Bombers","Steel","Stone","Str Weapons Maintenance","Strategic Airports","Strategic Bombers","Strategic Bombs","Strategic Military Bases","Submarine Torpedoes","Submarines","Sugar","Sulfur","Supply Ships","Tactical Nuclear Weapons","Tactical Weapons Launchers","Targon","Telephone","Train Tracks","Trucks","Universities","Uranium","Vegetables","Water treatment facilities","Weapon Grade Components","Weapon Grade Uranium","Weapon Quality Upgrades","Wheat","Wind Farms","Wind Turbines","Wood","Wool","Zinc","Advanced Effectivity Products","Advanced Quality Products", "Shows", "Sport", "Vacation"
+        const checkboxTexts = [
+            "Air Transport",
+            "Aircraft Carriers",
+            "Aircraft Fuel",
+            "Airforce Maintenance",
+            "Airplanes",
+            "Aluminum",
+            "Ammunition Components",
+            "Ammunition Quality Upgrades",
+            "Anti Aircraft Missile Batteries",
+            "Anti Aircraft Missiles",
+            "Anti Tank Missile Batteries",
+            "Anti Tank Missiles",
+            "Armored Vehicle Missiles",
+            "Armored Vehicles",
+            "Assets Maintenance",
+            "Attack Boats",
+            "Attack Destroyer Torpedoes",
+            "Attack Destroyers",
+            "Attack Drone Missiles",
+            "Attack Drones",
+            "Attack Helicopter Missiles",
+            "Attack Helicopters","Batteries","Beans",
+            "Books And Newspapers",
+            "Bread",
+            "Bricks",
+            "Building Materials",
+            "Butter",
+            "Cable TV Services",
+            "Car Engines",
+            "Carbon",
+            "Cargo Airplanes",
+            "Cargo Shuttles",
+            "Cattle",
+            "Cattle Feed",
+            "Cement",
+            "Chemical Missile Batteries",
+            "Chemical Missiles",
+            "Chemicals",
+            "Chocolate",
+            "Clothes",
+            "Coal",
+            "Cocoa",
+            "Coffee",
+            "Computers",
+            "Construction",
+            "Conventional Missile Batteries",
+            "Conventional Missiles",
+            "Copper",
+            "Corn",
+            "Cotton",
+            "Cruise Missiles Ship Based",
+            "Cruise Missiles Ships",
+            "Def Weapons Maintenance",
+            "Defense Fortifications",
+            "Defense Targon Batteries",
+            "Defensive Military Airports",
+            "Defensive Military Bases",
+            "Defensive Missile Batteries",
+            "Defensive Missiles",
+            "Defensive Targon Missiles",
+            "Destroyer Torpedoes",
+            "Destroyers",
+            "Displays",
+            "Eggs",
+            "Electric Components",
+            "Electric Motors",
+            "Electric Power",
+            "Electronic Components",
+            "Elementary schools",
+            "Factory Maintenance",
+            "Fighter Missiles",
+            "Fighter Planes",
+            "Fruit",
+            "Furniture",
+            "Gas",
+            "Gasoline",
+            "Glass",
+            "Gold",
+            "Guided Missiles",
+            "Guided Missiles Frigates",
+            "Heavy Armored Vehicles",
+            "Heavy Artillery",
+            "Heavy Artillery Shells",
+            "Heavy Jeeps",
+            "Heavy Tank Ammunition",
+            "Heavy Tanks",
+            "Helicopter Carriers",
+            "Helicopter Missiles",
+            "Helicopters",
+            "High Tech Services",
+            "Highschools",
+            "Hospitals",
+            "Household Products",
+            "Industrial Equipment",
+            "Interceptor Missiles",
+            "Interceptors",
+            "Internet",
+            "Iron",
+            "Jewelry",
+            "Land Based Cruise",
+            "Land Based Cruise Batteries",
+            "Land To Sea Missile Batteries",
+            "Land To Sea Missiles",
+            "Laser Guided Bombs",
+            "Lead",
+            "Light Artillery",
+            "Light Artillery Shells",
+            "Light Tank Ammunition",
+            "Light Tanks",
+            "Lithium",
+            "Long Range Radar Planes",
+            "Luxury Goods",
+            "Machine Parts",
+            "Meat",
+            "Medical Equipment",
+            "Medical Materials",
+            "Mercury",
+            "Metadium",
+            "Mid Range Missile Batteries",
+            "Mid Range Missiles",
+            "Military Bases Maintenance",
+            "Military Services",
+            "Military Supplies",
+            "Military Transport Airplanes",
+            "Milk",
+            "Minerals",
+            "Missile Interceptor Batteries",
+            "Missile Interceptors",
+            "Mobile Devices",
+            "Navy Base",
+            "Navy Fighter Missiles",
+            "Navy Fighter Planes",
+            "Navy Helicopter Missiles",
+            "Navy Helicopters",
+            "Navy Interceptor Missiles",
+            "Navy Interceptors",
+            "Navy Missile Batteries",
+            "Navy Missile Interceptor Batteries",
+            "Navy Missile Interceptors",
+            "Navy Missiles",
+            "Navy Vessels Maintenance",
+            "Nuclear Defense Batteries",
+            "Nuclear Defense Missiles",
+            "Nuclear Missile Batteries",
+            "Nuclear Missiles",
+            "Nuclear Submarine Missiles",
+            "Nuclear Submarines",
+            "Off Anti Aircraft Missile Batteries",
+            "Off Anti Aircraft Missiles",
+            "Off Weapons Maintenance",
+            "Offensive Military Airports",
+            "Offensive Military Bases",
+            "Oil",
+            "Other Food Products",
+            "Paper",
+            "Peanuts",
+            "Pharmaceutical Products",
+            "Plastics",
+            "Platinum",
+            "Plutonium",
+            "Potassium",
+            "Potatoes",
+            "Precision Bombers",
+            "Precision Bombs",
+            "Production Plants",
+            "Radar Planes",
+            "Rapid Deployment Ammo",
+            "Rapid Deployment Units",
+            "Rice",
+            "Roads",
+            "Robotics",
+            "Rubber",
+            "Sand",
+            "Seals Ammo",
+            "Seals Units",
+            "Selenium",
+            "Services",
+            "Shuttle Boosters",
+            "Shuttle Components",
+            "Shuttle Engines",
+            "Shuttle Extentions",
+            "Shuttle Fuselage",
+            "Shuttle Maintenance Units",
+            "Silver",
+            "Software",
+            "Solid Missile Fuel",
+            "Soybeans",
+            "Space Centers",
+            "Special Forces Missiles",
+            "Special Forces Units",
+            "Spices",
+            "Stealth Bombers",
+            "Steel",
+            "Stone",
+            "Str Weapons Maintenance",
+            "Strategic Airports",
+            "Strategic Bombers",
+            "Strategic Bombs",
+            "Strategic Military Bases",
+            "Submarine Torpedoes",
+            "Submarines",
+            "Sugar",
+            "Sulfur",
+            "Supply Ships",
+            "Tactical Nuclear Weapons",
+            "Tactical Weapons Launchers",
+            "Targon",
+            "Telephone",
+            "Train Tracks",
+            "Trucks",
+            "Universities",
+            "Uranium",
+            "Vegetables",
+            "Water treatment facilities",
+            "Weapon Grade Components",
+            "Weapon Grade Uranium",
+            "Weapon Quality Upgrades",
+            "Wheat",
+            "Wind Farms",
+            "Wind Turbines",
+            "Wood",
+            "Wool",
+            "Zinc",
+            "Advanced Effectivity Products",
+            "Advanced Quality Products",
+            "Shows",
+            "Sport",
+            "Vacation"
         ];
 
         const indexes = [
@@ -269,7 +499,7 @@
 
 
         // An array of URLs to open when buttons are clicked
-        const buttonURLs = [
+        const URLs = [
             ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=159", // 1) Air Transport
             ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=197", // 2) Aircraft Carriers
             ".simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=tradesellstockfindcorps&miProduct=253", // 3) Aircraft Fuel
@@ -503,8 +733,10 @@
 
         ];
 
-        // Get the container div where buttons will be added
-        const buttonContainer = document.getElementById("button-container");
+        var tabsToOpen = [];
+
+        // Get the container div where checkboxes will be added
+        const checkboxContainer = document.getElementById("checkbox-container");
 
         // Get the dropdown element
         const numberDropdown = document.getElementById("numberDropdown");
@@ -514,50 +746,58 @@
             return `https://sim0${number}${url}`;
         }
 
-        function openTabs(index) {
+        function selectTabs(index) {
             for (let i = 0; i < indexes[index].length; i++) {
                 num = indexes[index][i] - 1;
-                const modifiedURL = appendNumberToURL(numberDropdown.value, buttonURLs[num]);
+                if(tabsToOpen.find((element) => element == num))
+                    continue;
+                else
+                    tabsToOpen.push(num);
+            }
+        }
+
+        function openTabs() {
+            for (let i = 0; i < tabsToOpen.length; i++) {
+                num = tabsToOpen[i];
+                const modifiedURL = appendNumberToURL(numberDropdown.value, URLs[num]);
                 window.open(modifiedURL, "_blank");
             }
         }
 
-        // Loop through the buttonTexts array and create buttons with corresponding URLs
-        for (let i = 0; i < buttonTexts.length; i++) {
-            // Create a div for each button row
-            const buttonRow = document.createElement("div");
-            buttonRow.className = "button-row";
+        // Loop through the checkboxTexts array and create checkboxes with corresponding URLs
+        for (let i = 0; i < checkboxTexts.length; i++) {
 
-            const button = document.createElement("button");
-            button.textContent = buttonTexts[i];
-            // button.setAttribute(i.toString, i.toString);
-            
+            // Create a div for each checkbox row
+            const checkboxRow = document.createElement("div");
+            checkboxRow.className = "checkbox-row";
 
-            // Add a click event listener to open the modified URL
-            button.addEventListener("click", function() {
-                const selectedNumber = numberDropdown.value;
-                openTabs(i);
-                // const modifiedURL = appendNumberToURL(selectedNumber, buttonURLs[i]);
-                // window.open(modifiedURL, "_blank");
-            });
+            const checkbox = document.createElement("input");
+            checkbox.type = "checkbox";
+            checkbox.id = "checkbox" + i;
 
-            // Append the button to the button row
-            buttonRow.appendChild(button);
+            const label = document.createElement("label");
+            label.appendChild(document.createTextNode(checkboxTexts[i]));
 
-            // Append the button row to the button container
-            buttonContainer.appendChild(buttonRow);
+            // Append the checkbox to the checkbox row
+            checkboxRow.appendChild(checkbox);
+            checkboxRow.appendChild(label);
+
+            // Append the checkbox row to the checkbox container
+            checkboxContainer.appendChild(checkboxRow);
         }
 
-        // Disable unusable buttons
-        for(let i = 0; i < buttonTexts.length; i++)
-        {
-            const buttons = buttonContainer.getElementsByTagName("button");
-
-            if(indexes[i].length == 0)
-            {
-                // buttons[i].disabled = true;
-                buttons[i].hidden = true;
+        // Function to check selected checkboxes
+        function checkSelectedCheckboxes() {
+            var selectedCheckboxes = [];
+            for (var i = 0; i <= checkboxTexts.length - 1; i++) {
+                var checkbox = document.getElementById("checkbox" + i);
+                if (checkbox.checked) {
+                    // selectedCheckboxes.push(i);
+                    selectTabs(i);
+                }
             }
+
+            openTabs();
         }
     </script>
 </body>
