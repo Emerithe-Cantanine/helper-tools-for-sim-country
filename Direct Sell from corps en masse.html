@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Scraper</title>
+</head>
+<body>
+    <h1>Web Scraper</h1>
+    <form id="settingsForm">
+        <label>Select Radio Button:</label>
+        <input type="radio" id="radio1" name="radio" value="1"> 1
+        <input type="radio" id="radio2" name="radio" value="2"> 2
+        <input type="radio" id="radio3" name="radio" value="3" checked> 3
+        <input type="radio" id="radio4" name="radio" value="4"> 4
+        <input type="radio" id="radio5" name="radio" value="5"> 5
+        <input type="radio" id="radio6" name="radio" value="6"> 6
+    </form>
+
+    <input type="file" id="fileInput">
+    <button id="addTextBox">Add Text Box</button>
+    
+    <div id="textBoxContainer"></div>
+
+    <button id="scrapeButton">Scrape</button>
+    
+    <div id="hyperlinksContainer"></div>
+    
+    <script>
+        document.getElementById('addTextBox').addEventListener('click', function() {
+            const textBoxContainer = document.getElementById('textBoxContainer');
+            const newTextBox = document.createElement('div');
+            const radioButton = document.querySelector('input[name="radio"]:checked').value;
+            newTextBox.innerHTML = `
+                <label for="countryName">Country Name:</label>
+                <input type="text" id="countryName${textBoxContainer.children.length + 1}" name="countryName">
+            `;
+            textBoxContainer.appendChild(newTextBox);
+        });
+
+        document.getElementById('scrapeButton').addEventListener('click', function() {
+            const fileInput = document.getElementById('fileInput');
+            const file = fileInput.files[0];
+            
+            if (!file) {
+                alert('Please select a file');
+                return;
+            }
+            
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const html = event.target.result;
+
+                const matches = html.match(/miCorpNumber=\d+"/g);
+                if (!matches) {
+                    alert('No Corp Numbers found in the file.');
+                    return;
+                }
+
+                // const corpName = html.match(/Corporation page for: /g);
+                // const corpNames = matches.map(matches => {
+                //     const corp = matches.match(/\s+/)
+                // })
+
+                const numbers = matches.map(match => {
+                    const number = match.match(/\d+/);
+                    return parseInt(number[0]);
+                });
+
+                const textBoxes = document.querySelectorAll('input[name="countryName"]');
+                const hyperlinksContainer = document.getElementById('hyperlinksContainer');
+                hyperlinksContainer.innerHTML = '';
+
+                numbers.forEach((number, index) => {
+                    const textBoxIndex = index % textBoxes.length;
+                    const textBox = textBoxes[textBoxIndex];
+                    const countryName = textBox.value.replace(/\s/g, '+');
+
+                    const radioButton = document.querySelector('input[name="radio"]:checked').value;
+
+                    const hyperlink = document.createElement('a');
+                    hyperlink.href = `https://sim0${radioButton}.simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=ccorptradenewcontract&miOtherKind=c&miActionDirect=&miCorpNumber=${number}&miOtherName=${countryName}`;
+                    hyperlink.textContent = `https://sim0${radioButton}.simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=ccorptradenewcontract&miOtherKind=c&miActionDirect=&miCorpNumber=${number}&miOtherName=${countryName}`;
+                    const br = document.createElement('br');
+
+                    hyperlinksContainer.appendChild(hyperlink);
+                    hyperlinksContainer.appendChild(br);
+                });
+
+                alert('Hyperlinks generated');
+            };
+
+            reader.readAsText(file);
+        });
+    </script>
+</body>
+</html>
