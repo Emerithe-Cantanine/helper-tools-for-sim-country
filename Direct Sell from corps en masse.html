@@ -6,7 +6,20 @@
     <title>Web Scraper</title>
 </head>
 <body>
-    <h1>Web Scraper</h1>
+    <h1>Direct Sell from corps en masse.</h1>
+    <h2>How to use:</h2>
+    <h3>Go to your enterprise. Click on my corporations. Right click somewhere on the page.
+        <br>Click "view page source" or something like that. In the new tab copy everything and paste it into a text file.
+        <br>On this page (the one you're reading now), click the browse button. Select the text file.
+        <br>Then click the "Add Country Name" button. You can have as many as you want. They don't have to be yours.
+        <br>Then click the Scrape button.
+        <br>Now here's what'll happen. The program will scrape that file for every corp number. Then it will generate a hyperlink
+        <br>for the page where that corporation can contract its products to a specific country.
+        <br>If you have specified more than 1 country, it will evenly divide the corporations between each country.
+        <br>So if you have 2 countries, then half your corporation contracts will go to one country and the other half to the other country.
+        <br>Then all you have to do is follow the hyperlinks. It goes without saying, but your enterprise should be last
+        <br>SimCountry page you accessed.
+    </h3>
     <form id="settingsForm">
         <label>Select Radio Button:</label>
         <input type="radio" id="radio1" name="radio" value="1"> 1
@@ -18,7 +31,7 @@
     </form>
 
     <input type="file" id="fileInput">
-    <button id="addTextBox">Add Text Box</button>
+    <button id="addTextBox">Add Country Name</button>
     
     <div id="textBoxContainer"></div>
 
