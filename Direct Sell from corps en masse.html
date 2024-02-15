@@ -10,7 +10,7 @@
     <h2>How to use:</h2>
     <h3>Go to your enterprise. Click on my corporations. Right click somewhere on the page.
         <br>Click "view page source" or something like that. In the new tab copy everything and paste it into a text file.
-        <br>On this page (the one you're reading now), click the browse button. Select the text file.
+        <br>On this page (the one you're reading now) select your world. Then click the browse button. Select the text file.
         <br>Then click the "Add Country Name" button. You can have as many as you want. They don't have to be yours.
         <br>Then click the Scrape button.
         <br>Now here's what'll happen. The program will scrape that file for every corp number. Then it will generate a hyperlink
@@ -22,12 +22,12 @@
     </h3>
     <form id="settingsForm">
         <label>Select Radio Button:</label>
-        <input type="radio" id="radio1" name="radio" value="1"> 1
-        <input type="radio" id="radio2" name="radio" value="2"> 2
-        <input type="radio" id="radio3" name="radio" value="3" checked> 3
-        <input type="radio" id="radio4" name="radio" value="4"> 4
-        <input type="radio" id="radio5" name="radio" value="5"> 5
-        <input type="radio" id="radio6" name="radio" value="6"> 6
+        <input type="radio" id="radio1" name="radio" value="1"> KB
+        <input type="radio" id="radio2" name="radio" value="2"> FB
+        <input type="radio" id="radio3" name="radio" value="3" checked> WG
+        <input type="radio" id="radio4" name="radio" value="4"> GR
+        <input type="radio" id="radio5" name="radio" value="5"> LU
+        <input type="radio" id="radio6" name="radio" value="6"> TA
     </form>
 
     <input type="file" id="fileInput">
@@ -84,20 +84,32 @@
                 const hyperlinksContainer = document.getElementById('hyperlinksContainer');
                 hyperlinksContainer.innerHTML = '';
 
-                numbers.forEach((number, index) => {
-                    const textBoxIndex = index % textBoxes.length;
-                    const textBox = textBoxes[textBoxIndex];
-                    const countryName = textBox.value.replace(/\s/g, '+');
+                let index = 0;
+                let three = 1;
 
-                    const radioButton = document.querySelector('input[name="radio"]:checked').value;
+                numbers.forEach((number) => {
+                    if(three % 3 != 0)
+                    {
+                        three += 1;
+                    }
+                    else
+                    {
+                        const textBoxIndex = index % textBoxes.length;
+                        const textBox = textBoxes[textBoxIndex];
+                        const countryName = textBox.value.replace(/\s/g, '+');
 
-                    const hyperlink = document.createElement('a');
-                    hyperlink.href = `https://sim0${radioButton}.simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=ccorptradenewcontract&miOtherKind=c&miActionDirect=&miCorpNumber=${number}&miOtherName=${countryName}`;
-                    hyperlink.textContent = `https://sim0${radioButton}.simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=ccorptradenewcontract&miOtherKind=c&miActionDirect=&miCorpNumber=${number}&miOtherName=${countryName}`;
-                    const br = document.createElement('br');
+                        const radioButton = document.querySelector('input[name="radio"]:checked').value;
 
-                    hyperlinksContainer.appendChild(hyperlink);
-                    hyperlinksContainer.appendChild(br);
+                        const hyperlink = document.createElement('a');
+                        hyperlink.href = `https://sim0${radioButton}.simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=ccorptradenewcontract&miOtherKind=c&miActionDirect=&miCorpNumber=${number}&miOtherName=${countryName}`;
+                        hyperlink.textContent = `https://sim0${radioButton}.simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=ccorptradenewcontract&miOtherKind=c&miActionDirect=&miCorpNumber=${number}&miOtherName=${countryName}`;
+                        const br = document.createElement('br');
+
+                        hyperlinksContainer.appendChild(hyperlink);
+                        hyperlinksContainer.appendChild(br);
+                        index += 1;
+                        three += 1;
+                    }
                 });
 
                 alert('Hyperlinks generated');
