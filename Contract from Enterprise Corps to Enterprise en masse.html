@@ -6,21 +6,19 @@
     <title>Web Scraper</title>
 </head>
 <body>
-    <h1>Contract from Enterprise corps to countries en masse</h1>
+    <h1>Contract from corps to enterprise en masse.</h1>
     <h2>How to use:</h2>
     <h3>Go to your enterprise. Click on my corporations. Right click somewhere on the page.
         <br>Click "view page source" or something like that. In the new tab copy everything and paste it into a text file.
-        <br>Save the text file somewhere. On this page (the one you're reading now) select your world.
-        <br>Then click the browse button. Select the text file.
-        <br>Then click the "Add Country Name" button. You can have as many as you want. They don't have to be yours.
+        <br>Save the text file somewhere.
+        <br>On this page (the one you're reading now) select your world. Then click the browse button. Select the text file.
         <br>Then click the Scrape button.
         <br>Now here's what'll happen. The program will scrape that file for every corp number.
-        <br>Then it will generate a hyperlink for the page where that corporation can contract its products to a specific country.
-        <br>If you have specified more than 1 country, it will evenly divide the corporations between each country.
-        <br>So if you have 2 countries, then half your corporation contracts will go to one country and the other half to the other country.
+        <br>Then it will generate a hyperlink for the page where that corporation can contract its products back to the enterprise.
         <br>Then the hyperlinks will be generated and appear as the names of your enterprise's corporations.
-        <br>Your enterprise must be the last SimCountry page you opened.
+        <br>Your enterprise must be the last Simcountry page you opened.
         <br>If you open another enterprise or country, the hyperlinks won't work.
+        <br>When you click a hyperlink, the countracts will immediately be accepted.
     </h3>
     <form id="settingsForm">
         <label>Select World:</label>
@@ -33,26 +31,12 @@
     </form>
 
     <input type="file" id="fileInput">
-    <button id="addTextBox">Add Country Name</button>
-    
-    <div id="textBoxContainer"></div>
 
     <button id="scrapeButton">Scrape</button>
     
     <div id="hyperlinksContainer"></div>
     
     <script>
-        document.getElementById('addTextBox').addEventListener('click', function() {
-            const textBoxContainer = document.getElementById('textBoxContainer');
-            const newTextBox = document.createElement('div');
-            const radioButton = document.querySelector('input[name="radio"]:checked').value;
-            newTextBox.innerHTML = `
-                <label for="countryName">Country Name:</label>
-                <input type="text" id="countryName${textBoxContainer.children.length + 1}" name="countryName">
-            `;
-            textBoxContainer.appendChild(newTextBox);
-        });
-
         document.getElementById('scrapeButton').addEventListener('click', function() {
             const fileInput = document.getElementById('fileInput');
             const file = fileInput.files[0];
@@ -98,15 +82,11 @@
                     }
                     else
                     {
-                        const textBoxIndex = index % textBoxes.length;
-                        const textBox = textBoxes[textBoxIndex];
-                        const countryName = textBox.value.replace(/\s/g, '+');
-
                         const radioButton = document.querySelector('input[name="radio"]:checked').value;
 
                         const hyperlink = document.createElement('a');
-                        hyperlink.href = `https://sim0${radioButton}.simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=ccorptradenewcontract&miOtherKind=c&miActionDirect=&miCorpNumber=${number}&miOtherName=${countryName}`;
-                        hyperlink.textContent = Names[index]; // `https://sim0${radioButton}.simcountry.com/cgi-bin/cgi2nova?SN_ADDRESS=wwwCountry&SN_METHOD=ccorptradenewcontract&miOtherKind=c&miActionDirect=&miCorpNumber=${number}&miOtherName=${countryName}`;
+                        hyperlink.href = `https://sim0${radioButton}.simcountry.com/cgi-bin/cgiw?ccorptradeownproduction&miCorpNumber=${number}`;
+                        hyperlink.textContent = Names[index]; //`https://sim0${radioButton}.simcountry.com/cgi-bin/cgiw?ccorptradeownproduction&miCorpNumber=${number}`;
                         const br = document.createElement('br');
 
                         hyperlinksContainer.appendChild(hyperlink);
@@ -116,7 +96,7 @@
                     }
                 });
 
-                alert('Hyperlinks generated');
+                // alert('Hyperlinks generated');
             };
 
             reader.readAsText(file);
